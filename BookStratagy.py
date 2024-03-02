@@ -16,3 +16,10 @@ class BookStrategy(ABC):
     @abstractmethod
     def delete_book(self, connection):
         pass
+        @abstractmethod
+    def delete_all_books(self, connection):
+        pass
+
+    @abstractmethod
+    def reserve_book(self, connection):
+        pass
