@@ -47,3 +47,30 @@ class PostgreSQLBookStrategy:
         with connection.cursor() as cursor:
             cursor.execute("DELETE FROM users WHERE id = %s", (book_id,))
             connection.commit()
+    def delete_all_books(self, connection):
+        confirmation = input("Are you sure you want to delete all books? Type 'yes' to confirm: ")
+        if confirmation.lower() == 'yes':
+            with connection.cursor() as cursor:
+                cursor.execute("DELETE FROM users")
+                connection.commit()
+                print("All books have been deleted.")
+        else:
+            print("Deletion cancelled.")
+
+    def reserve_book(self, connection):
+        book_id = int(input("Enter book ID to reserve: "))
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT * FROM users WHERE id = %s", (book_id,))
+            book = cursor.fetchone()
+            if not book:
+                print(f"No book found with that ID: {book_id}")
+                return
+
+            # Check if the book is already reserved
+            if book.get('reserved'):  # Assuming there's a 'reserved' column in the table
+                print("This book is already reserved.")
+                return
+
+            cursor.execute("UPDATE users SET reserved = True WHERE id = %s", (book_id,))
+            connection.commit()
+            print(f"Book ID {book_id} has been reserved.")
