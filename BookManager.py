@@ -14,3 +14,9 @@ class BookManager:
 
     def delete_book(self):
         self.strategy.delete_book(self.connection)
+        
+    def delete_all_books(self):
+        self.strategy.delete_all_books(self.connection)
+
+    def reserve_book(self):
+        self.strategy.reserve_book(self.connection)
